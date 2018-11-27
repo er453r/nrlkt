@@ -1,14 +1,14 @@
 package com.er453r.plot.colormaps
 
-class Hot : Colormap{
-	private static var data:List<List<Float>> = [
-		[0, 0, 0],
-		[1, 0, 0],
-		[1, 1, 0],
-		[1, 1, 1]
-	]
+import com.er453r.plot.Colormap
 
-	fun new(buckets:Int = 266){
-		super(data, buckets)
-	}
+class Hot(buckets: Int = 266) : Colormap(data, buckets) {
+    companion object {
+        val data: Array<Array<Float>> = arrayOf(
+                arrayOf(0f, 0f, 0f),
+                arrayOf(1f, 0f, 0f),
+                arrayOf(1f, 1f, 0f),
+                arrayOf(1f, 1f, 1f)
+        )
+    }
 }

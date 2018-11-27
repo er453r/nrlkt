@@ -1,19 +1,19 @@
 package com.er453r.plot.colormaps
 
-class Jet : Colormap{
-	private static var data:List<List<Float>> = [
-		[0.0, 0.0, 0.5],
-		[0.0, 0.0, 1.0],
-		[0.0, 0.5, 1.0],
-		[0.0, 1.0, 1.0],
-		[0.5, 1.0, 0.5],
-		[1.0, 1.0, 0.0],
-		[1.0, 0.5, 0.0],
-		[1.0, 0.0, 0.0],
-		[0.5, 0.0, 0.0]
-	]
+import com.er453r.plot.Colormap
 
-	fun new(buckets:Int = 266){
-		super(data, buckets)
-	}
+class Jet(buckets: Int = 266) : Colormap(data, buckets) {
+    companion object {
+        val data: Array<Array<Float>> = arrayOf(
+                arrayOf(0.0f, 0.0f, 0.5f),
+                arrayOf(0.0f, 0.0f, 1.0f),
+                arrayOf(0.0f, 0.5f, 1.0f),
+                arrayOf(0.0f, 1.0f, 1.0f),
+                arrayOf(0.5f, 1.0f, 0.5f),
+                arrayOf(1.0f, 1.0f, 0.0f),
+                arrayOf(1.0f, 0.5f, 0.0f),
+                arrayOf(1.0f, 0.0f, 0.0f),
+                arrayOf(0.5f, 0.0f, 0.0f)
+        )
+    }
 }

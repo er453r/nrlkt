@@ -2,6 +2,7 @@ package com.er453r.plot
 
 import com.er453r.plot.colormaps.Cold
 import org.khronos.webgl.Uint8ClampedArray
+import org.khronos.webgl.set
 import org.w3c.dom.CanvasRenderingContext2D
 import org.w3c.dom.HTMLCanvasElement
 import org.w3c.dom.ImageData
@@ -39,15 +40,15 @@ class Image {
 		var pixels:Uint8ClampedArray = image.data
 
 		for(n in 0..pixels.length/4){
-			var color:Color = colormap.getColor((data[n] - min) * scale)
+			var color:Color = colormap!!.getColor((data[n] - min) * scale)
 
-			pixels[4 * n + 0] = color.r // Red value
-			pixels[4 * n + 1] = color.g // Green value
-			pixels[4 * n + 2] = color.b // Blue value
-			pixels[4 * n + 3] = 255 // Alpha value
+			pixels[4 * n + 0] = color.r.toByte() // Red value
+			pixels[4 * n + 1] = color.g.toByte() // Green value
+			pixels[4 * n + 2] = color.b.toByte() // Blue value
+			pixels[4 * n + 3] = 255.toByte() // Alpha value
 		}
 
-		context.putImageData(image, 0, 0)
+		context.putImageData(image, 0.0, 0.0)
 	}
 
 	private  fun <T> collect(data:MutableList<T>, collector:(T)->Float):List<Float>{

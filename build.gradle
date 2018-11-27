@@ -42,11 +42,6 @@ kotlinFrontend {
 
     npm {
         dependency("kotlin", "$kotlin_version")
-        dependency "jspdf"
-        dependency "ace-builds"
-
-        devDependency "ts2kt" // use this for inspiration - but roll your own mini-wrappers by hand - automatic ones are a mess
-        devDependency "@types/jspdf" // use this for inspiration - but roll your own mini-wrappers by hand - automatic ones are a mess
     }
 
     webpackBundle {
