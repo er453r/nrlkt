@@ -5,7 +5,7 @@ class PlotUtils {
         fun min(data: List<Float>): Float {
             var minValue: Float = data[0]
 
-            for (n in 1..data.size)
+            for (n in 1 until data.size)
                 if (data[n] < minValue)
                     minValue = data[n]
 
@@ -15,7 +15,7 @@ class PlotUtils {
         fun max(data: List<Float>): Float {
             var maxValue: Float = data[0]
 
-            for (n in 1..data.size)
+            for (n in 1 until data.size)
                 if (data[n] > maxValue)
                     maxValue = data[n]
 

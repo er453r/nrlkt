@@ -62,7 +62,7 @@ class Plot {
 
 		var pathString:String = ""
 
-		for(n in 0..data.size){
+		for(n in 0 until data.size){
 			var value:Float = data[n]
 
 			var x:Float = n * horizontalScale

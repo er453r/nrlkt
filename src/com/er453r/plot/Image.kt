@@ -29,7 +29,7 @@ class Image {
 		document.querySelector(selector)?.let { it.appendChild(canvas) }
 	}
 
-	fun <T> generic(vector:MutableList<T>, collector:(T)->Float) {
+	fun <T> generic(vector:MutableList<T?>, collector:(T)->Float) {
 		var data:List<Float> = collect(vector, collector)
 
 		var min:Float = PlotUtils.min(data)
@@ -39,7 +39,7 @@ class Image {
 
 		var pixels:Uint8ClampedArray = image.data
 
-		for(n in 0..pixels.length/4){
+		for(n in 0 until pixels.length/4){
 			var color:Color = colormap!!.getColor((data[n] - min) * scale)
 
 			pixels[4 * n + 0] = color.r.toByte() // Red value
@@ -51,7 +51,7 @@ class Image {
 		context.putImageData(image, 0.0, 0.0)
 	}
 
-	private  fun <T> collect(data:MutableList<T>, collector:(T)->Float):List<Float>{
-		return data.map { collector(it) }
+	private  fun <T> collect(data:MutableList<T?>, collector:(T)->Float):List<Float>{
+		return data.map { collector(it!!) }
 	}
 }

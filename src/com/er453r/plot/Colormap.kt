@@ -15,7 +15,7 @@ open class Colormap {
 
 		var step:Float = 1f / buckets
 
-		for(n in 0..buckets + 1)
+		for(n in 0 until buckets + 1)
 			cache.add(getColorFromLut(n * step))
 	}
 

@@ -38,6 +38,8 @@ class Test{
 	}
 
 	private fun init(){
+		println("NRLKT Started!")
+
 		stats = document.getElementById("fps")
 		output = Image(width, height)
 		learning = Image(width, height, Viridis())
@@ -51,12 +53,12 @@ class Test{
 		}
 		plot = Plot(width, height)
 
-		var neurons:MutableList<Neuron> = network!!.getNeurons()
+		var neurons:MutableList<Neuron?> = network!!.getNeurons()
 
 		var synapses = 0
 
 		for(neuron in neurons)
-			synapses += neuron.inputs.size
+			synapses += neuron!!.inputs.size
 
 		println("${neurons.size} neurons, ${synapses} synapses")
 
@@ -72,12 +74,12 @@ class Test{
 	private fun loop(){
 		var inputIndex:Int = (height / 2) * width + (width / 4)
 		var outputIndex:Int = (height / 2) * width + (3 * width / 4)
-		var neurons:MutableList<Neuron> = network!!.getNeurons()
+		var neurons:MutableList<Neuron?> = network!!.getNeurons()
 
 		if(iter > 5)
-			neurons[inputIndex].value = 1f
-		neurons[outputIndex].learning = 1f
-		neurons[inputIndex].learning = 0f
+			neurons[inputIndex]!!.value = 1f
+		neurons[outputIndex]!!.learning = 1f
+		neurons[inputIndex]!!.learning = 0f
 
 		network!!.update()
 
@@ -91,7 +93,7 @@ class Test{
 
 		outputIndex = (height / 2) * width + (3 * width / 4)
 
-		outs.add(network!!.getNeurons().get(outputIndex).value)
+		outs.add(network!!.getNeurons().get(outputIndex)!!.value)
 
 		while(outs.size > 100)
 			outs.removeAt(0)
@@ -104,9 +106,9 @@ class Test{
 
 
 		if(iter > 4)
-			neurons[inputIndex].value = 1f
-		neurons[outputIndex].learning = 1f
-		neurons[inputIndex].learning = 0f
+			neurons[inputIndex]!!.value = 1f
+		neurons[outputIndex]!!.learning = 1f
+		neurons[inputIndex]!!.learning = 0f
 
 		iter++
 
