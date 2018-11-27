@@ -1,121 +1,114 @@
 package com.er453r.neural.tests
 
 import com.er453r.neural.Neuron
-import com.er453r.neural.mutators.PositiveWeights
 import com.er453r.neural.mutators.Decay
+import com.er453r.neural.mutators.PositiveWeights
 import com.er453r.neural.mutators.WTA
-import com.er453r.plot.Plot
-import com.er453r.plot.colormaps.Viridis
-import com.er453r.plot.Image
-
 import com.er453r.neural.nets.FlatNet
 import com.er453r.neural.nets.Network
+import com.er453r.plot.Image
+import com.er453r.plot.Plot
+import com.er453r.plot.colormaps.Viridis
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.w3c.dom.Element
 import kotlin.browser.document
 
-fun main(){
-	Test()
+fun main() {
+    document.addEventListener("DOMContentLoaded", { Test() })
 }
 
-class Test{
-	private var output:Image? = null
-	private var learning:Image? = null
-	private var plot:Plot? = null
+class Test {
+    private val output: Image
+    private val learning: Image
+    private val plot: Plot
 
-	private var fps:FPS = FPS()
-	private var stats:Element? = null
+    private val fps: FPS = FPS()
+    private val stats: Element
 
-	private var network:Network? = null
+    private val network: Network
 
-	private var width:Int = 2 * 32
-	private var height:Int = 2 * 32
-	
-	init{
-		document.addEventListener("DOMContentLoaded", {init()})
-	}
+    private val width: Int = 2 * 32
+    private val height: Int = 2 * 32
 
-	private fun init(){
-		println("NRLKT Started!")
+    private val inputIndex: Int = (height / 2) * width + (width / 4)
+    private var outputIndex: Int = (height / 2) * width + (3 * width / 4)
 
-		stats = document.getElementById("fps")
-		output = Image(width, height)
-		learning = Image(width, height, Viridis())
-		network = FlatNet(width, height, 1) {
-			Neuron(mutableListOf(
-					WTA(),
-					Decay(0.01f, 0.9f),
-					PositiveWeights(0.5f),
-					DepthLearning()
-			))
-		}
-		plot = Plot(width, height)
+    init {
+        println("NRLKT Started!")
 
-		var neurons:MutableList<Neuron?> = network!!.getNeurons()
+        stats = document.getElementById("fps")!!
+        output = Image(width, height)
+        learning = Image(width, height, Viridis())
+        network = FlatNet(width, height, 1) {
+            Neuron(mutableListOf(
+                    WTA(),
+                    Decay(0.01f, 0.9f),
+                    PositiveWeights(0.5f),
+                    DepthLearning()
+            ))
+        }
+        plot = Plot(width, height)
 
-		var synapses = 0
+        val neurons: MutableList<Neuron?> = network.getNeurons()
 
-		for(neuron in neurons)
-			synapses += neuron!!.inputs.size
+        var synapses = 0
 
-		println("${neurons.size} neurons, ${synapses} synapses")
+        for (neuron in neurons)
+            synapses += neuron!!.inputs.size
 
-		loop()
-	}
+        println("${neurons.size} neurons, $synapses synapses")
 
-	private var iter:Int = 0
+        loop()
+    }
 
-	private var outs:MutableList<Float> = mutableListOf()
+    private var iter: Int = 0
 
-	private var log:LogScale = LogScale()
+    private var outs: MutableList<Float> = mutableListOf()
+    private var log: LogScale = LogScale()
 
-	private fun loop(){
-		var inputIndex:Int = (height / 2) * width + (width / 4)
-		var outputIndex:Int = (height / 2) * width + (3 * width / 4)
-		var neurons:MutableList<Neuron?> = network!!.getNeurons()
+    private fun loop() {
+        val neurons: MutableList<Neuron?> = network.getNeurons()
 
-		if(iter > 5)
-			neurons[inputIndex]!!.value = 1f
-		neurons[outputIndex]!!.learning = 1f
-		neurons[inputIndex]!!.learning = 0f
+        if (iter > 5)
+            neurons[inputIndex]!!.value = 1f
+        neurons[outputIndex]!!.learning = 1f
+        neurons[inputIndex]!!.learning = 0f
 
-		network!!.update()
+        network.update()
 
-		output!!.generic(network!!.getNeurons(), fun(neuron:Neuron):Float{
-			return log.scale(neuron.value)
-		})
+        val log = this.log
+        val outs = this.outs
 
-		learning!!.generic(network!!.getNeurons(), fun(neuron:Neuron):Float{
-			return 1 - log.scale(neuron.learning)
-		})
+        output.generic(neurons) { log.scale(it.value) }
 
-		outputIndex = (height / 2) * width + (3 * width / 4)
+        learning.generic(neurons) { 1 - log.scale(it.learning) }
 
-		outs.add(network!!.getNeurons().get(outputIndex)!!.value)
+        outs.add(neurons[outputIndex]!!.value)
 
-		while(outs.size > 100)
-			outs.removeAt(0)
+        while (outs.size > 100)
+            outs.removeAt(0)
 
-		plot!!.floats(outs)
+        plot.floats(outs)
 
-		stats!!.innerHTML = "FPS ${fps.update()}"
+        if (iter % 100 == 0)
+            stats.innerHTML = "FPS ${fps.update()}"
 
-		fps.update()
+        fps.update()
 
-		if(iter > 4)
-			neurons[inputIndex]!!.value = 1f
-		neurons[outputIndex]!!.learning = 1f
-		neurons[inputIndex]!!.learning = 0f
+        if (iter > 4)
+            neurons[inputIndex]!!.value = 1f
+        neurons[outputIndex]!!.learning = 1f
+        neurons[inputIndex]!!.learning = 0f
 
-		iter++
+        iter++
 
-		GlobalScope.launch {
-			delay(5)
+        GlobalScope.launch {
+            delay(5)
 
-			if(iter < 3000)
-				loop()
-		}
-	}
+            if (iter < 3000)
+                loop()
+        }
+    }
 }
