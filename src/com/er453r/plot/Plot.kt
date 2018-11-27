@@ -1,33 +1,33 @@
 package com.er453r.plot
 
-import js.html.svg.TextElement
-import js.html.svg.TextContentElement
-import com.er453r.plot.PlotUtils
-import js.html.svg.PathElement
-import js.html.svg.SVGElement
-import js.Browser
+import org.w3c.dom.svg.SVGElement
+import org.w3c.dom.svg.SVGPathElement
+import org.w3c.dom.svg.SVGTextElement
+import kotlin.browser.document
 
 class Plot {
-	private static inline var MARGIN:Float = 0.2
+	companion object {
+	    val MARGIN:Float = 0.2f
+	}
 
-	private var path:PathElement
+	private var path:SVGPathElement
 
 	private var width:Int
 	private var height:Int
 
-	private var min:TextElement
-	private var max:TextElement
+	private var min:SVGTextElement
+	private var max:SVGTextElement
 
-	fun new(width:Int, height:Int, selector:String = "body") {
+	constructor(width:Int, height:Int, selector:String = "body") {
 		this.width = width
 		this.height = height
 
-		var svg:SVGElement = cast Browser.document.createElementNS("http://www.w3.org/2000/svg", "svg")
+		var svg:SVGElement = document.createElementNS("http://www.w3.org/2000/svg", "svg") as SVGElement
 
-		svg.setAttribute("width", Std.string(width))
-		svg.setAttribute("height", Std.string(height))
+		svg.setAttribute("width", width.toString())
+		svg.setAttribute("height", height.toString())
 
-		path = cast Browser.document.createElementNS("http://www.w3.org/2000/svg", "path")
+		path = document.createElementNS("http://www.w3.org/2000/svg", "path") as SVGPathElement
 
 		svg.appendChild(path)
 
@@ -36,28 +36,28 @@ class Plot {
 
 		path.setAttribute("d", "M 0 0 L 100 100")
 
-		min = cast Browser.document.createElementNS("http://www.w3.org/2000/svg", "text")
+		min = document.createElementNS("http://www.w3.org/2000/svg", "text") as SVGTextElement
 		min.innerHTML = "min"
 		min.setAttribute("x", "10")
-		min.setAttribute("y", '${height-30}')
+		min.setAttribute("y", "${height-30}")
 
 		svg.appendChild(min)
 
-		max = cast Browser.document.createElementNS("http://www.w3.org/2000/svg", "text")
+		max = document.createElementNS("http://www.w3.org/2000/svg", "text") as SVGTextElement
 		max.innerHTML = "max"
 		max.setAttribute("x", "10")
 		max.setAttribute("y", "10")
 
 		svg.appendChild(max)
 
-		Browser.document.querySelector(selector).appendChild(svg)
+		document.querySelector(selector)!!.appendChild(svg)
 	}
 
 	fun floats(data:List<Float>) {
 		var min:Float = PlotUtils.min(data)
 		var max:Float = PlotUtils.max(data)
 
-		var horizontalScale:Float = width / data.size
+		var horizontalScale:Float = width.toFloat() / data.size
 		var verticalScale:Float = 1 / (max - min)
 
 		var pathString:String = ""
@@ -68,17 +68,17 @@ class Plot {
 			var x:Float = n * horizontalScale
 			var y:Float = height * (1 - ((value - min) * verticalScale))
 
-			if(Math.isNaN(y))
+			if(y.isNaN())
 				continue
 
 			if(n == 0)
-				pathString += 'M ${x} ${y}'
+				pathString += " ${x} ${y}"
 			else
-				pathString += ' L ${x} ${y}'
+				pathString += " L ${x} ${y}"
 		}
 
-		this.min.innerHTML = '${min}'
-		this.max.innerHTML = '${max}'
+		this.min.innerHTML = "${min}"
+		this.max.innerHTML = "${max}"
 
 		path.setAttribute("d", pathString)
 	}

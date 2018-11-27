@@ -12,7 +12,7 @@ class Neuron {
 	var learn:Float = 0f
 	var learning:Float = 0f
 
-	fun new(mutators:MutableList<NeuronMutator>) {
+	constructor(mutators:MutableList<NeuronMutator>) {
 		this.mutators = mutators
 
 		for(mutator in mutators)

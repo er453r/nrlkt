@@ -31,8 +31,8 @@ open class Colormap {
 		var thisWeight:Float = 1 - (value - thisValue)
 		var nextWeight:Float = 1 - thisWeight
 
-		var thisColor:List<Float> = lut[thisIndex]
-		var nextColor:List<Float> = lut[nextIndex]
+		var thisColor:Array<Float> = lut[thisIndex]
+		var nextColor:Array<Float> = lut[nextIndex]
 
 		var r:Int = round(255 * (thisColor[0] * thisWeight + nextColor[0] * nextWeight)).toInt()
 		var g:Int = round(255 * (thisColor[1] * thisWeight + nextColor[1] * nextWeight)).toInt()

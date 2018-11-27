@@ -8,8 +8,6 @@ class FPS {
 
 	private var past:Float = Date.now().toFloat()
 
-	fun new(){}
-
 	fun update():Int{
 		frames++
 
