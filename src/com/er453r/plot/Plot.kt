@@ -72,7 +72,7 @@ class Plot {
 				continue
 
 			if(n == 0)
-				pathString += " ${x} ${y}"
+				pathString += "M ${x} ${y}"
 			else
 				pathString += " L ${x} ${y}"
 		}

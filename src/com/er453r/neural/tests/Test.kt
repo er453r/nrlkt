@@ -115,7 +115,8 @@ class Test{
 		GlobalScope.launch {
 			delay(5)
 
-			loop()
+			if(iter < 3000)
+				loop()
 		}
 	}
 }
