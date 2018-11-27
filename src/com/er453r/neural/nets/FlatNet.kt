@@ -55,7 +55,7 @@ class FlatNet : Network {
 
 		var reverseTime:Float = Date.now().toFloat() - past
 
-		println("Created forward in ${1000 * forwardTime} ms., reverse in ${1000 * reverseTime} ms.'")
+		println("Created forward in ${forwardTime} ms., reverse in ${reverseTime} ms.'")
 	}
 
 	override fun getNeurons():MutableList<Neuron?>{
