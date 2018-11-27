@@ -13,10 +13,10 @@ class FPS {
 
 		var now:Float = Date.now().toFloat()
 
-		var diff:Float = now - past
+		var diff:Float = (now - past) / 1e3f
 
 		if(diff > 1){
-			fps = (frames / diff).toInt()
+			fps = (frames.toFloat() / diff).toInt()
 
 			past = now
 			frames = 0

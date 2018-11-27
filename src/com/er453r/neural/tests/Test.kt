@@ -104,7 +104,6 @@ class Test{
 
 		fps.update()
 
-
 		if(iter > 4)
 			neurons[inputIndex]!!.value = 1f
 		neurons[outputIndex]!!.learning = 1f
