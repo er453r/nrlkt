@@ -15,10 +15,6 @@ import kotlinx.coroutines.launch
 import org.w3c.dom.Element
 import kotlin.browser.document
 
-fun main() {
-    document.addEventListener("DOMContentLoaded", { Test() })
-}
-
 class Test {
     private val output: Image
     private val learning: Image
@@ -33,7 +29,12 @@ class Test {
     private val height: Int = 2 * 32
 
     private val inputIndex: Int = (height / 2) * width + (width / 4)
-    private var outputIndex: Int = (height / 2) * width + (3 * width / 4)
+    private val outputIndex: Int = (height / 2) * width + (3 * width / 4)
+
+    private var iter: Int = 0
+
+    private val outs: MutableList<Float> = mutableListOf()
+    private val log: LogScale = LogScale()
 
     init {
         println("NRLKT Started!")
@@ -62,11 +63,6 @@ class Test {
 
         loop()
     }
-
-    private var iter: Int = 0
-
-    private var outs: MutableList<Float> = mutableListOf()
-    private var log: LogScale = LogScale()
 
     private fun loop() {
         val neurons: MutableList<Neuron?> = network.getNeurons()
