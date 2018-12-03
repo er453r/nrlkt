@@ -8,6 +8,7 @@ import com.er453r.neural.nets.FlatNet
 import com.er453r.neural.nets.Network
 import com.er453r.plot.Image
 import com.er453r.plot.Plot
+import com.er453r.plot.colormaps.Inferno
 import com.er453r.plot.colormaps.Viridis
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -40,7 +41,7 @@ class Test {
         println("NRLKT Started!")
 
         stats = document.getElementById("fps")!!
-        output = Image(width, height)
+        output = Image(width, height, Inferno())
         learning = Image(width, height, Viridis())
         network = FlatNet(width, height, 1) {
             Neuron(arrayOf(
@@ -87,7 +88,7 @@ class Test {
         while (outs.size > 100)
             outs.removeAt(0)
 
-        plot.floats(outs)
+        plot.floats(FloatArray(outs.size){outs[it]})
 
         if (iter % 100 == 0)
             stats.innerHTML = "FPS ${fps.update()}"

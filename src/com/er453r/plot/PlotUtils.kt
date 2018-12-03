@@ -2,7 +2,7 @@ package com.er453r.plot
 
 class PlotUtils {
     companion object {
-        fun min(data: List<Float>): Float {
+        fun min(data: FloatArray): Float {
             var minValue: Float = data[0]
 
             for (n in 1 until data.size)
@@ -12,7 +12,7 @@ class PlotUtils {
             return minValue
         }
 
-        fun max(data: List<Float>): Float {
+        fun max(data: FloatArray): Float {
             var maxValue: Float = data[0]
 
             for (n in 1 until data.size)
