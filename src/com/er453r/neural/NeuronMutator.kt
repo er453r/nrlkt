@@ -1,7 +1,7 @@
 package com.er453r.neural
 
-open class NeuronMutator {
-    open fun onInit(neuron: Neuron) {}
-    open fun onStep(neuron: Neuron) {}
-    open fun onSynapse(synapse: Synapse) {}
+interface NeuronMutator {
+    fun onInit(neuron: Neuron) {}
+    fun onStep(neuron: Neuron) {}
+    fun onSynapse(synapse: Synapse) {}
 }

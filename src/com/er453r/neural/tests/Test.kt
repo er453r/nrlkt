@@ -101,7 +101,7 @@ class Test {
         iter++
 
         GlobalScope.launch {
-            delay(5)
+            delay(1)
 
             if (iter < 3000)
                 loop()

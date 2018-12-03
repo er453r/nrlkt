@@ -4,22 +4,22 @@ import com.er453r.neural.Neuron
 import com.er453r.neural.NeuronMutator
 import com.er453r.neural.Synapse
 
-class LearningWTA(private var threshold: Float = 0.000001f) : NeuronMutator() {
-    private var momentum: Float = 0.9f
-    var dl: Float = 0f
+class LearningWTA : NeuronMutator {
+    private val momentum: Float = 0.9f
+    private var dl: Float = 0f
 
     override fun onStep(neuron: Neuron) {
         // weight modificaiton propagation
-        var max: Float = 0f
+        var max = 0f
         var maxSynapse: Synapse = neuron.inputs[0]
 
         // we find the input with the biggest value
-        for (input in neuron.inputs) {
-            var value: Float = input.getValue()
+        neuron.inputs.forEach {
+            val value: Float = it.getValue()
 
             if (max < value) {
                 max = value
-                maxSynapse = input
+                maxSynapse = it
             }
         }
 
@@ -36,12 +36,12 @@ class LearningWTA(private var threshold: Float = 0.000001f) : NeuronMutator() {
         maxSynapse = neuron.outputs[0]
 
         // we find the input withe biggest share
-        for (input in neuron.inputs) {
-            var value: Float = input.input.value
+        neuron.inputs.forEach {
+            val value: Float = it.input.value
 
             if (max < value) {
                 max = value
-                maxSynapse = input
+                maxSynapse = it
             }
         }
 
@@ -49,15 +49,15 @@ class LearningWTA(private var threshold: Float = 0.000001f) : NeuronMutator() {
 
         // learing signal propagation
         max = 0f
-        maxSynapse = neuron.outputs[0]
+        //maxSynapse = neuron.outputs[0]
 
         // we find the output withe biggest learning factor
-        for (output in neuron.outputs) {
-            var value: Float = output.output.learning * output.learn
+        neuron.outputs.forEach{
+            val value: Float = it.output.learning * it.learn
 
             if (max < value) {
                 max = value
-                maxSynapse = output
+                //maxSynapse = output
             }
         }
 

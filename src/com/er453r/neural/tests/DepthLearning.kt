@@ -4,7 +4,7 @@ import com.er453r.neural.Neuron
 import com.er453r.neural.NeuronMutator
 import com.er453r.neural.Synapse
 
-class DepthLearning : NeuronMutator() {
+class DepthLearning : NeuronMutator {
     override fun onStep(neuron: Neuron) {
         // creates gradient for the singal to propagate into
         var max: Float = neuron.outputs[0].output.learning * neuron.outputs[0].weight

@@ -4,12 +4,11 @@ import com.er453r.neural.Neuron
 import com.er453r.neural.NeuronMutator
 import kotlin.math.exp
 
-class Sigmoid : NeuronMutator() {
+class Sigmoid : NeuronMutator {
     override fun onStep(neuron: Neuron) {
-        var fired: Float = 0f
+        var fired = 0f
 
-        for (input in neuron.inputs)
-            fired += input.getValue()
+        neuron.inputs.forEach { fired += it.getValue() }
 
         neuron.fired = sigmoid(fired)
     }

@@ -4,18 +4,18 @@ import com.er453r.neural.Neuron
 import com.er453r.neural.NeuronMutator
 import com.er453r.neural.Synapse
 
-class ReinforcementWTALearning : NeuronMutator() {
+class ReinforcementWTALearning : NeuronMutator {
     override fun onStep(neuron: Neuron) {
-        // weight modificaiton propagation
-        var max: Float = 0f
+        // weight modification propagation
+        var max = 0f
         var maxInput: Synapse = neuron.inputs[0]
 
-        for (input in neuron.inputs) {
-            var value: Float = input.getValue()
+        neuron.inputs.forEach {
+            val value: Float = it.getValue()
 
             if (max < value) {
                 max = value
-                maxInput = input
+                maxInput = it
             }
         }
 
