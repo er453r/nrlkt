@@ -43,7 +43,7 @@ class Test {
         output = Image(width, height)
         learning = Image(width, height, Viridis())
         network = FlatNet(width, height, 1) {
-            Neuron(mutableListOf(
+            Neuron(arrayOf(
                     WTA(),
                     Decay(0.01f, 0.9f),
                     PositiveWeights(0.5f),
@@ -65,10 +65,11 @@ class Test {
     }
 
     private fun loop() {
-        val neurons: Array<Neuron> = network.getNeurons()
+        val neurons = network.getNeurons()
 
         if (iter > 5)
             neurons[inputIndex].value = 1f
+
         neurons[outputIndex].learning = 1f
         neurons[inputIndex].learning = 0f
 
@@ -95,6 +96,7 @@ class Test {
 
         if (iter > 4)
             neurons[inputIndex].value = 1f
+
         neurons[outputIndex].learning = 1f
         neurons[inputIndex].learning = 0f
 

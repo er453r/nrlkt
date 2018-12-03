@@ -2,16 +2,15 @@ package com.er453r.neural.tests
 
 import com.er453r.neural.Neuron
 import com.er453r.neural.NeuronMutator
-import com.er453r.neural.Synapse
 
 class DepthLearning : NeuronMutator {
     override fun onStep(neuron: Neuron) {
         // creates gradient for the singal to propagate into
-        var max: Float = neuron.outputs[0].output.learning * neuron.outputs[0].weight
-        var maxLearner: Synapse = neuron.outputs[0]
+        var max = neuron.outputs[0].output.learning * neuron.outputs[0].weight
+        var maxLearner = neuron.outputs[0]
         var found = false
 
-        for (output in neuron.outputs) {
+        neuron.outputs.forEach { output ->
             val value: Float = output.output.learning * output.weight
 
             output.weight *= 0.9f

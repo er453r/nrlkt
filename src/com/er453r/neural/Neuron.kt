@@ -1,6 +1,6 @@
 package com.er453r.neural
 
-class Neuron(private val mutators: MutableList<NeuronMutator>) {
+class Neuron(private val mutators: Array<NeuronMutator>) {
     val inputs: MutableList<Synapse> = mutableListOf()
     val outputs: MutableList<Synapse> = mutableListOf()
 
@@ -11,23 +11,18 @@ class Neuron(private val mutators: MutableList<NeuronMutator>) {
     var learning: Float = 0f
 
     init {
-        for (mutator in mutators)
-            mutator.onInit(this)
+        mutators.forEach { it.onInit(this) }
     }
 
     fun addInput(neuron: Neuron) {
         val synapse = Synapse(neuron, this)
 
-        for (mutator in mutators)
-            mutator.onSynapse(synapse)
+        mutators.forEach { it.onSynapse(synapse) }
 
         inputs.add(synapse)
     }
 
-    fun step() {
-        for (mutator in mutators)
-            mutator.onStep(this)
-    }
+    fun step() = mutators.forEach { it.onStep(this) }
 
     fun propagate() {
         value = fired
