@@ -28,7 +28,7 @@ class Image {
         document.querySelector(selector)!!.appendChild(canvas)
     }
 
-    fun <T> generic(vector: MutableList<T?>, collector: (T) -> Float) {
+    fun <T> generic(vector: Array<T>, collector: (T) -> Float) {
         var data: List<Float> = collect(vector, collector)
 
         var min: Float = PlotUtils.min(data)
@@ -50,7 +50,7 @@ class Image {
         context.putImageData(image, 0.0, 0.0)
     }
 
-    private fun <T> collect(data: MutableList<T?>, collector: (T) -> Float): List<Float> {
+    private fun <T> collect(data: Array<T>, collector: (T) -> Float): List<Float> {
         return data.map { collector(it!!) }
     }
 }

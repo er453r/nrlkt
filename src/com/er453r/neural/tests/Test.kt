@@ -52,12 +52,12 @@ class Test {
         }
         plot = Plot(width, height)
 
-        val neurons: MutableList<Neuron?> = network.getNeurons()
+        val neurons: Array<Neuron> = network.getNeurons()
 
         var synapses = 0
 
         for (neuron in neurons)
-            synapses += neuron!!.inputs.size
+            synapses += neuron.inputs.size
 
         println("${neurons.size} neurons, $synapses synapses")
 
@@ -65,12 +65,12 @@ class Test {
     }
 
     private fun loop() {
-        val neurons: MutableList<Neuron?> = network.getNeurons()
+        val neurons: Array<Neuron> = network.getNeurons()
 
         if (iter > 5)
-            neurons[inputIndex]!!.value = 1f
-        neurons[outputIndex]!!.learning = 1f
-        neurons[inputIndex]!!.learning = 0f
+            neurons[inputIndex].value = 1f
+        neurons[outputIndex].learning = 1f
+        neurons[inputIndex].learning = 0f
 
         network.update()
 
@@ -81,7 +81,7 @@ class Test {
 
         learning.generic(neurons) { 1 - log.scale(it.learning) }
 
-        outs.add(neurons[outputIndex]!!.value)
+        outs.add(neurons[outputIndex].value)
 
         while (outs.size > 100)
             outs.removeAt(0)
@@ -94,9 +94,9 @@ class Test {
         fps.update()
 
         if (iter > 4)
-            neurons[inputIndex]!!.value = 1f
-        neurons[outputIndex]!!.learning = 1f
-        neurons[inputIndex]!!.learning = 0f
+            neurons[inputIndex].value = 1f
+        neurons[outputIndex].learning = 1f
+        neurons[inputIndex].learning = 0f
 
         iter++
 
