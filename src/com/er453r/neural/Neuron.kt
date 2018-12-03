@@ -1,40 +1,36 @@
 package com.er453r.neural
 
-class Neuron {
-	var inputs:MutableList<Synapse> = mutableListOf()
-	var outputs:MutableList<Synapse> = mutableListOf()
+class Neuron(private val mutators: MutableList<NeuronMutator>) {
+    val inputs: MutableList<Synapse> = mutableListOf()
+    val outputs: MutableList<Synapse> = mutableListOf()
 
-	private var mutators:MutableList<NeuronMutator> = mutableListOf()
+    var value: Float = 0f
+    var fired: Float = 0f
 
-	var value:Float = 0f
-	var fired:Float = 0f
+    var learn: Float = 0f
+    var learning: Float = 0f
 
-	var learn:Float = 0f
-	var learning:Float = 0f
+    init {
+        for (mutator in mutators)
+            mutator.onInit(this)
+    }
 
-	constructor(mutators:MutableList<NeuronMutator>) {
-		this.mutators = mutators
+    fun addInput(neuron: Neuron) {
+        val synapse = Synapse(neuron, this)
 
-		for(mutator in mutators)
-			mutator.onInit(this)
-	}
+        for (mutator in mutators)
+            mutator.onSynapse(synapse)
 
-	fun addInput(neuron:Neuron){
-		var synapse:Synapse = Synapse(neuron, this)
+        inputs.add(synapse)
+    }
 
-		for(mutator in mutators)
-			mutator.onSynapse(synapse)
+    fun step() {
+        for (mutator in mutators)
+            mutator.onStep(this)
+    }
 
-		inputs.add(synapse)
-	}
-
-	fun step(){
-		for(mutator in mutators)
-			mutator.onStep(this)
-	}
-	
-	fun propagate(){
-		value = fired
-		learning = learn
-	}
+    fun propagate() {
+        value = fired
+        learning = learn
+    }
 }
