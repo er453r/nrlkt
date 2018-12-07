@@ -15,6 +15,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.w3c.dom.Element
 import kotlin.browser.document
+import kotlin.browser.window
 import kotlin.js.Date
 
 class Test {
@@ -37,6 +38,8 @@ class Test {
 
     private val outs: MutableList<Float> = mutableListOf()
     private val log: LogScale = LogScale()
+
+    private var past: Float = Date.now().toFloat()
 
     init {
         println("NRLKT Started!")
@@ -63,16 +66,9 @@ class Test {
 
         println("${neurons.size} neurons, $synapses synapses")
 
-        val past: Float = Date.now().toFloat()
+        past = Date.now().toFloat()
 
-        for(x in 1..1000)
-            loop()
-
-        val now: Float = Date.now().toFloat()
-
-        val diff: Float = (now - past) / 1e3f
-
-        println("Done in $diff")
+        loop()
     }
 
     private fun loop() {
@@ -89,21 +85,21 @@ class Test {
         val log = this.log
         val outs = this.outs
 
-//        output.generic(neurons) { log.scale(it.value) }
-//
-//        learning.generic(neurons) { 1 - log.scale(it.learning) }
+        output.generic(neurons) { log.scale(it.value) }
 
-//        outs.add(neurons[outputIndex].value)
-//
-//        while (outs.size > 100)
-//            outs.removeAt(0)
-//
-//        plot.floats(FloatArray(outs.size){outs[it]})
+        learning.generic(neurons) { 1 - log.scale(it.learning) }
+
+        outs.add(neurons[outputIndex].value)
+
+        while (outs.size > 100)
+            outs.removeAt(0)
+
+        plot.floats(FloatArray(outs.size){outs[it]})
 
         if (iter % 100 == 0)
             stats.innerHTML = "FPS ${fps.update()}"
-
-        fps.update()
+        else
+            fps.update()
 
         if (iter > 4)
             neurons[inputIndex].value = 1f
@@ -113,11 +109,16 @@ class Test {
 
         iter++
 
-//        GlobalScope.launch {
-//            delay(1)
-//
-//            if (iter < 3000)
-//                loop()
-//        }
+        if (iter < 1000)
+            window.setTimeout({
+                loop()
+            }, 1)
+        else{
+            val now: Float = Date.now().toFloat()
+
+            val diff: Float = (now - past) / 1e3f
+
+            println("Done in $diff")
+        }
     }
 }
