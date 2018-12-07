@@ -28,8 +28,8 @@ class Test {
 
     private val network: Network
 
-    private val width: Int = 8 * 32
-    private val height: Int = 8 * 32
+    private val width: Int = 2 * 32
+    private val height: Int = 2 * 32
 
     private val inputIndex: Int = (height / 2) * width + (width / 4)
     private val outputIndex: Int = (height / 2) * width + (3 * width / 4)
@@ -110,9 +110,10 @@ class Test {
         iter++
 
         if (iter < 1000)
-            window.setTimeout({
+            GlobalScope.launch {
+                delay(1)
                 loop()
-            }, 1)
+            }
         else{
             val now: Float = Date.now().toFloat()
 
