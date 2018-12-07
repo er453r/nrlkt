@@ -1,6 +1,7 @@
 package com.er453r.neural.nets
 
 import com.er453r.neural.Neuron
+import com.er453r.neural.Synapse
 import kotlin.js.Date
 
 class FlatNet(width: Int, height: Int, d: Int = 1, getNeuron: () -> Neuron) : Network {
@@ -21,10 +22,14 @@ class FlatNet(width: Int, height: Int, d: Int = 1, getNeuron: () -> Neuron) : Ne
             val endX: Int = if (x + d + 1 > width) width else x + d + 1
             val endY: Int = if (y + d + 1 > height) height else y + d + 1
 
+            val inputs = mutableListOf<Neuron>()
+
             for (y_ in startY until endY)
                 for (x_ in startX until endX)
                     if (y_ != y || x_ != x)
-                        neuron.addInput(neurons[y_ * width + x_])
+                        inputs.add(neurons[y_ * width + x_])
+
+            neuron.addInputs(inputs)
         }
 
         val forwardTime: Float = Date.now().toFloat() - past
@@ -32,10 +37,14 @@ class FlatNet(width: Int, height: Int, d: Int = 1, getNeuron: () -> Neuron) : Ne
         past = Date.now().toFloat()
 
         neurons.forEach { neuron ->
+            val outputs = mutableListOf<Synapse>()
+
             for (neighbour in neuron.inputs)
                 for (neighbourInput in neighbour.input.inputs)
                     if (neighbourInput.input == neuron)
-                        neuron.outputs.add(neighbourInput)
+                        outputs.add(neighbourInput)
+
+            neuron.addOutputs(outputs)
         }
 
         val reverseTime: Float = Date.now().toFloat() - past

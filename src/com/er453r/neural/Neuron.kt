@@ -1,8 +1,8 @@
 package com.er453r.neural
 
 class Neuron(private val mutators: Array<NeuronMutator>) {
-    val inputs: MutableList<Synapse> = mutableListOf()
-    val outputs: MutableList<Synapse> = mutableListOf()
+    var inputs: Array<Synapse> = emptyArray()
+    var outputs: Array<Synapse> = emptyArray()
 
     var value: Float = 0f
     var fired: Float = 0f
@@ -14,12 +14,18 @@ class Neuron(private val mutators: Array<NeuronMutator>) {
         mutators.forEach { it.onInit(this) }
     }
 
-    fun addInput(neuron: Neuron) {
-        val synapse = Synapse(neuron, this)
+    fun addInputs(neurons: List<Neuron>) {
+        inputs = Array(neurons.size){
+            val synapse = Synapse(neurons[it], this)
 
-        mutators.forEach { it.onSynapse(synapse) }
+            mutators.forEach { it.onSynapse(synapse) }
 
-        inputs.add(synapse)
+            synapse
+        }
+    }
+
+    fun addOutputs(synapses: List<Synapse>) {
+        outputs = synapses.toTypedArray()
     }
 
     fun step() = mutators.forEach { it.onStep(this) }

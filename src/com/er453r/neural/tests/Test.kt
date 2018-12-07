@@ -15,6 +15,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.w3c.dom.Element
 import kotlin.browser.document
+import kotlin.js.Date
 
 class Test {
     private val output: Image
@@ -26,8 +27,8 @@ class Test {
 
     private val network: Network
 
-    private val width: Int = 2 * 32
-    private val height: Int = 2 * 32
+    private val width: Int = 8 * 32
+    private val height: Int = 8 * 32
 
     private val inputIndex: Int = (height / 2) * width + (width / 4)
     private val outputIndex: Int = (height / 2) * width + (3 * width / 4)
@@ -62,7 +63,16 @@ class Test {
 
         println("${neurons.size} neurons, $synapses synapses")
 
-        loop()
+        val past: Float = Date.now().toFloat()
+
+        for(x in 1..1000)
+            loop()
+
+        val now: Float = Date.now().toFloat()
+
+        val diff: Float = (now - past) / 1e3f
+
+        println("Done in $diff")
     }
 
     private fun loop() {
@@ -79,16 +89,16 @@ class Test {
         val log = this.log
         val outs = this.outs
 
-        output.generic(neurons) { log.scale(it.value) }
+//        output.generic(neurons) { log.scale(it.value) }
+//
+//        learning.generic(neurons) { 1 - log.scale(it.learning) }
 
-        learning.generic(neurons) { 1 - log.scale(it.learning) }
-
-        outs.add(neurons[outputIndex].value)
-
-        while (outs.size > 100)
-            outs.removeAt(0)
-
-        plot.floats(FloatArray(outs.size){outs[it]})
+//        outs.add(neurons[outputIndex].value)
+//
+//        while (outs.size > 100)
+//            outs.removeAt(0)
+//
+//        plot.floats(FloatArray(outs.size){outs[it]})
 
         if (iter % 100 == 0)
             stats.innerHTML = "FPS ${fps.update()}"
@@ -103,11 +113,11 @@ class Test {
 
         iter++
 
-        GlobalScope.launch {
-            delay(1)
-
-            if (iter < 3000)
-                loop()
-        }
+//        GlobalScope.launch {
+//            delay(1)
+//
+//            if (iter < 3000)
+//                loop()
+//        }
     }
 }
