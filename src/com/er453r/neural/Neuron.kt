@@ -1,6 +1,6 @@
 package com.er453r.neural
 
-class Neuron(private val mutators: Array<NeuronMutator>) {
+class Neuron(private vararg val mutators: NeuronMutator) {
     var inputs: Array<Synapse> = emptyArray()
     var outputs: Array<Synapse> = emptyArray()
 
@@ -15,8 +15,8 @@ class Neuron(private val mutators: Array<NeuronMutator>) {
     }
 
     fun addInputs(neurons: List<Neuron>) {
-        inputs = Array(neurons.size){
-            val synapse = Synapse(neurons[it], this)
+        inputs = Array(neurons.size) { n ->
+            val synapse = Synapse(neurons[n], this)
 
             mutators.forEach { it.onSynapse(synapse) }
 

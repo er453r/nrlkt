@@ -15,7 +15,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.w3c.dom.Element
 import kotlin.browser.document
-import kotlin.browser.window
 import kotlin.js.Date
 
 class Test {
@@ -28,8 +27,8 @@ class Test {
 
     private val network: Network
 
-    private val width: Int = 2 * 32
-    private val height: Int = 2 * 32
+    private val width: Int = 4 * 32
+    private val height: Int = 4 * 32
 
     private val inputIndex: Int = (height / 2) * width + (width / 4)
     private val outputIndex: Int = (height / 2) * width + (3 * width / 4)
@@ -48,12 +47,12 @@ class Test {
         output = Image(width, height, Inferno())
         learning = Image(width, height, Viridis())
         network = FlatNet(width, height, 1) {
-            Neuron(arrayOf(
+            Neuron(
                     WTA(),
                     Decay(0.01f, 0.9f),
                     PositiveWeights(0.5f),
                     DepthLearning()
-            ))
+            )
         }
         plot = Plot(width, height)
 
