@@ -1,4 +1,4 @@
-package com.er453r.neural.tests
+package com.er453r.neural.mutators
 
 import com.er453r.neural.Neuron
 import com.er453r.neural.NeuronMutator

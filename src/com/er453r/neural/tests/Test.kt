@@ -2,6 +2,7 @@ package com.er453r.neural.tests
 
 import com.er453r.neural.Neuron
 import com.er453r.neural.mutators.Decay
+import com.er453r.neural.mutators.DepthLearning
 import com.er453r.neural.mutators.PositiveWeights
 import com.er453r.neural.mutators.WTA
 import com.er453r.neural.nets.FlatNet
