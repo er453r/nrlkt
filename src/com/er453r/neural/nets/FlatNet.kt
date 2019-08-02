@@ -2,9 +2,11 @@ package com.er453r.neural.nets
 
 import com.er453r.neural.Neuron
 import com.er453r.neural.Synapse
+import mu.KotlinLogging
 import kotlin.js.Date
 
 class FlatNet(width: Int, height: Int, d: Int = 1, getNeuron: () -> Neuron) : Network {
+    private val logger = KotlinLogging.logger {}
     private val neurons: Array<Neuron>
 
     init {
@@ -49,7 +51,7 @@ class FlatNet(width: Int, height: Int, d: Int = 1, getNeuron: () -> Neuron) : Ne
 
         val reverseTime: Float = Date.now().toFloat() - past
 
-        println("Created forward in $forwardTime ms., reverse in $reverseTime ms.'")
+        logger.info{"Created forward in $forwardTime ms., reverse in $reverseTime ms.'"}
     }
 
     override fun getNeurons() = neurons

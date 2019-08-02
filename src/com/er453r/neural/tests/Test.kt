@@ -7,6 +7,7 @@ import com.er453r.neural.mutators.PositiveWeights
 import com.er453r.neural.mutators.WTA
 import com.er453r.neural.nets.FlatNet
 import com.er453r.neural.nets.Network
+import com.er453r.neural.utils.Log
 import com.er453r.plot.Image
 import com.er453r.plot.Plot
 import com.er453r.plot.colormaps.Inferno
@@ -14,11 +15,14 @@ import com.er453r.plot.colormaps.Viridis
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import mu.KotlinLogging
 import org.w3c.dom.Element
 import kotlin.browser.document
 import kotlin.js.Date
 
 class Test {
+    private val logger = KotlinLogging.logger {}
+
     private val output: Image
     private val learning: Image
     private val plot: Plot
@@ -42,7 +46,15 @@ class Test {
     private var past: Float = Date.now().toFloat()
 
     init {
-        println("NRLKT Started!")
+        logger.info{"NRLKT Started!"}
+
+        val log = Log("TESTOS")
+
+        log.info{ "Testing logit lambdas!!!" }
+        log.info{ "So much testing!!!" }
+
+        println(this::class.js.name)
+        console.dir(this::class.js)
 
         stats = document.getElementById("fps")!!
         output = Image(width, height, Inferno())
@@ -64,7 +76,7 @@ class Test {
         for (neuron in neurons)
             synapses += neuron.inputs.size
 
-        println("${neurons.size} neurons, $synapses synapses")
+        logger.info{"${neurons.size} neurons, $synapses synapses"}
 
         past = Date.now().toFloat()
 
@@ -119,7 +131,7 @@ class Test {
 
             val diff: Float = (now - past) / 1e3f
 
-            println("Done in $diff")
+            logger.info{"Done in $diff"}
         }
     }
 }

@@ -26,6 +26,12 @@
             <artifactId>kotlinx-coroutines-core-js</artifactId>
             <version>1.0.1</version>
         </dependency>
+
+        <dependency>
+            <groupId>io.github.microutils</groupId>
+            <artifactId>kotlin-logging-js</artifactId>
+            <version>1.7.2</version>
+        </dependency>
     </dependencies>
 
     <build>
